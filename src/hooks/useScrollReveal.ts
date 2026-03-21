@@ -11,14 +11,25 @@ export function useScrollReveal() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
 
-    const elements = document.querySelectorAll(
-      ".scroll-reveal, .scroll-reveal-left, .scroll-reveal-right"
-    );
-    elements.forEach((el) => observer.observe(el));
+    // Use MutationObserver to catch dynamically added elements
+    const findAndObserve = () => {
+      const elements = document.querySelectorAll(
+        ".scroll-reveal:not(.revealed), .scroll-reveal-left:not(.revealed), .scroll-reveal-right:not(.revealed), .scroll-reveal-scale:not(.revealed)"
+      );
+      elements.forEach((el) => observer.observe(el));
+    };
 
-    return () => observer.disconnect();
+    findAndObserve();
+
+    const mutation = new MutationObserver(findAndObserve);
+    mutation.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mutation.disconnect();
+    };
   }, []);
 }

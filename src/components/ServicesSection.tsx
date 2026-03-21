@@ -11,8 +11,11 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="py-24 md:py-32 bg-muted/50">
-      <div className="container">
+    <section id="services" className="py-24 md:py-32 bg-muted/50 relative overflow-hidden">
+      {/* Decorative accent */}
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+      <div className="container relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
           <p className="font-body text-sm tracking-[0.25em] uppercase text-secondary font-semibold mb-3">What We Do</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight text-balance">
@@ -24,12 +27,20 @@ export default function ServicesSection() {
           {services.map((s, i) => (
             <div
               key={s.title}
-              className="group relative p-8 bg-card rounded-lg border border-border hover:border-secondary/40 transition-all hover:shadow-lg hover:shadow-secondary/5 scroll-reveal"
-              style={{ transitionDelay: `${i * 70}ms` }}
+              className="group relative p-8 bg-card rounded-lg border border-border hover:border-secondary/40 transition-all duration-500 hover:shadow-xl hover:shadow-secondary/10 hover:-translate-y-2 scroll-reveal overflow-hidden"
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <s.icon className="w-8 h-8 text-secondary mb-4 group-hover:scale-110 transition-transform origin-left" />
-              <h3 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h3>
-              <p className="font-body text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              {/* Hover gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/0 to-secondary/0 group-hover:from-secondary/5 group-hover:to-transparent transition-all duration-500 rounded-lg" />
+              
+              <div className="relative z-10">
+                <s.icon className="w-8 h-8 text-secondary mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 origin-left" />
+                <h3 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h3>
+                <p className="font-body text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </div>
+
+              {/* Bottom accent line */}
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           ))}
         </div>
