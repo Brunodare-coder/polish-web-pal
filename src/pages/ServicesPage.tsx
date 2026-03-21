@@ -4,46 +4,14 @@ import { Link } from "react-router-dom";
 import { Paintbrush, Wrench, Plug, Droplets, Home, Building2, ArrowUpRight, Layers } from "lucide-react";
 
 const services = [
-  {
-    icon: Home,
-    title: "Refurbishment",
-    desc: "Our service offers complete replacement of electrics, plumbing, drainage, gas etc. We understand that refurbishment often means living or working on the 'building site', therefore we provide a schedule of work with distinction into stages to make it least inconvenient to clients. Our project manager or foreman will keep you updated, inform of any alteration and provide a time scale of completion.",
-  },
-  {
-    icon: Paintbrush,
-    title: "Decorating",
-    desc: "We offer a full spectrum of decoration services covering all types of internal and external painting. We work on big and small projects using a variety of premium products to reach the required result and quality finish every time.",
-  },
-  {
-    icon: Building2,
-    title: "Extensions",
-    desc: "We help clients with space planning to maximize property potential. We offer relevant certificates on completion and assist with planning permission application and local authorities inspections where applicable. Our dedicated Project Manager ensures projects are finished professionally and on time.",
-  },
-  {
-    icon: Wrench,
-    title: "Bespoke Kitchen, Bathroom & Bedroom",
-    desc: "Our service consists of made to measure cabinets, fittings and all sorts of furniture. We match existing designs or create something unique. We also co-operate with high street suppliers like Benchmark, Bath Store, Howdens and more.",
-  },
-  {
-    icon: Layers,
-    title: "Loft Conversions",
-    desc: "Loft conversions are potentially the easiest way of getting an extra room. We offer our view on design, structural work and layout. Our company organises scaffold, all necessary permits, and helps you understand building regulations and consents.",
-  },
-  {
-    icon: Plug,
-    title: "Electrical Services",
-    desc: "Consumer unit upgrades, full rewiring, smart home installations, EV charger fitting, and all electrical certification. Our electricians are fully qualified and NICEIC accredited.",
-  },
-  {
-    icon: Droplets,
-    title: "Plumbing & Heating",
-    desc: "Full bathroom and kitchen plumbing, boiler installation, underfloor heating, and Gas Safe registered gas work. We handle everything from small repairs to complete system installations.",
-  },
-  {
-    icon: Home,
-    title: "Engineered Surfaces & Flooring",
-    desc: "Exterior decorative application, interior custom flooring, and industrial floor coatings. We provide high-performance surfaces that combine durability with aesthetics.",
-  },
+  { icon: Home, title: "Refurbishment", desc: "Our service offers complete replacement of electrics, plumbing, drainage, gas etc. We understand that refurbishment often means living or working on the 'building site', therefore we provide a schedule of work with distinction into stages to make it least inconvenient to clients. Our project manager or foreman will keep you updated, inform of any alteration and provide a time scale of completion." },
+  { icon: Paintbrush, title: "Decorating", desc: "We offer a full spectrum of decoration services covering all types of internal and external painting. We work on big and small projects using a variety of premium products to reach the required result and quality finish every time." },
+  { icon: Building2, title: "Extensions", desc: "We help clients with space planning to maximize property potential. We offer relevant certificates on completion and assist with planning permission application and local authorities inspections where applicable. Our dedicated Project Manager ensures projects are finished professionally and on time." },
+  { icon: Wrench, title: "Bespoke Kitchen, Bathroom & Bedroom", desc: "Our service consists of made to measure cabinets, fittings and all sorts of furniture. We match existing designs or create something unique. We also co-operate with high street suppliers like Benchmark, Bath Store, Howdens and more." },
+  { icon: Layers, title: "Loft Conversions", desc: "Loft conversions are potentially the easiest way of getting an extra room. We offer our view on design, structural work and layout. Our company organises scaffold, all necessary permits, and helps you understand building regulations and consents." },
+  { icon: Plug, title: "Electrical Services", desc: "Consumer unit upgrades, full rewiring, smart home installations, EV charger fitting, and all electrical certification. Our electricians are fully qualified and NICEIC accredited." },
+  { icon: Droplets, title: "Plumbing & Heating", desc: "Full bathroom and kitchen plumbing, boiler installation, underfloor heating, and Gas Safe registered gas work. We handle everything from small repairs to complete system installations." },
+  { icon: Home, title: "Engineered Surfaces & Flooring", desc: "Exterior decorative application, interior custom flooring, and industrial floor coatings. We provide high-performance surfaces that combine durability with aesthetics." },
 ];
 
 const steps = [
@@ -63,24 +31,27 @@ export default function ServicesPage() {
       />
 
       {/* Services grid */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container">
+      <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="container relative z-10">
           <div className="grid md:grid-cols-2 gap-8">
             {services.map((s, i) => (
               <div
                 key={s.title}
-                className="group p-8 bg-card rounded-lg border border-border hover:border-secondary/40 hover:shadow-lg hover:shadow-secondary/5 transition-all scroll-reveal"
-                style={{ transitionDelay: `${i * 60}ms` }}
+                className="group p-8 bg-card rounded-lg border border-border hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/10 transition-all duration-500 hover:-translate-y-1 scroll-reveal overflow-hidden relative"
+                style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <div className="flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-md bg-secondary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
-                    <s.icon className="w-6 h-6 text-secondary" />
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary/0 to-secondary/0 group-hover:from-secondary/5 group-hover:to-transparent transition-all duration-500 rounded-lg" />
+                <div className="relative z-10 flex items-start gap-5">
+                  <div className="w-12 h-12 rounded-md bg-secondary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-secondary group-hover:scale-110 transition-all duration-500">
+                    <s.icon className="w-6 h-6 text-secondary group-hover:text-secondary-foreground transition-colors duration-500" />
                   </div>
                   <div>
                     <h3 className="font-display text-xl font-semibold text-foreground mb-3">{s.title}</h3>
                     <p className="font-body text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                   </div>
                 </div>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             ))}
           </div>
@@ -88,8 +59,9 @@ export default function ServicesPage() {
       </section>
 
       {/* Process */}
-      <section className="py-24 md:py-32 bg-muted/50">
-        <div className="container">
+      <section className="py-24 md:py-32 bg-muted/50 relative overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+        <div className="container relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
             <p className="font-body text-sm tracking-[0.25em] uppercase text-secondary font-semibold mb-3">How We Work</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight text-balance">
@@ -97,10 +69,13 @@ export default function ServicesPage() {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            {/* Connecting line */}
+            <div className="hidden lg:block absolute top-8 left-[12%] right-[12%] h-px bg-gradient-to-r from-secondary/20 via-secondary/40 to-secondary/20" />
+            
             {steps.map((step, i) => (
-              <div key={step.num} className="scroll-reveal" style={{ transitionDelay: `${i * 80}ms` }}>
-                <span className="font-display text-4xl font-bold text-secondary/20">{step.num}</span>
+              <div key={step.num} className="scroll-reveal text-center lg:text-left relative" style={{ transitionDelay: `${i * 120}ms` }}>
+                <span className="inline-block font-display text-4xl font-bold text-gradient mb-2">{step.num}</span>
                 <h3 className="font-display text-lg font-semibold text-foreground mt-2 mb-2">{step.title}</h3>
                 <p className="font-body text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
               </div>
@@ -110,8 +85,9 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-secondary">
-        <div className="container text-center scroll-reveal">
+      <section className="py-20 bg-secondary relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+        <div className="container text-center scroll-reveal relative z-10">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-secondary-foreground mb-4 text-balance">
             Ready to Start Your Project?
           </h2>
@@ -120,7 +96,7 @@ export default function ServicesPage() {
           </p>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 font-body font-semibold text-sm bg-primary text-primary-foreground rounded-md hover:bg-navy-light transition-colors active:scale-[0.97] shadow-lg tracking-wide uppercase"
+            className="inline-flex items-center gap-2 px-8 py-4 font-body font-semibold text-sm bg-primary text-primary-foreground rounded-md hover:bg-navy-light transition-all duration-300 active:scale-[0.97] shadow-lg hover:shadow-xl tracking-wide uppercase"
           >
             Get a Free Quote <ArrowUpRight className="w-4 h-4" />
           </Link>
