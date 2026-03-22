@@ -45,7 +45,7 @@ export default function AboutSection() {
         <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
           <p className="font-body text-sm tracking-[0.25em] uppercase text-secondary font-semibold mb-3">Why Choose Us</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight text-balance">
-            Your Trusted Partner in Property Transformation
+            Your Trusted Partner in Property <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Transformation</span>
           </h2>
           <p className="mt-4 font-body text-muted-foreground leading-relaxed">
             We are focused on providing integrated solutions and services to customers around England. Putting our clients' interests first, we work hard to exceed your expectations.

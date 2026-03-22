@@ -19,7 +19,7 @@ export default function ServicesSection() {
         <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
           <p className="font-body text-sm tracking-[0.25em] uppercase text-secondary font-semibold mb-3">What We Do</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight text-balance">
-            Our Speciality Includes
+            Our <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Speciality</span> Includes
           </h2>
         </div>
 
