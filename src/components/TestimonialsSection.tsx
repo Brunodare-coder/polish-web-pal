@@ -42,7 +42,8 @@ const staticTestimonials: Testimonial[] = [
 export default function TestimonialsSection() {
   const { ref, offset } = useParallax(0.15);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(staticTestimonials);
-
+  const [showForm, setShowForm] = useState(false);
+  const [sending, setSending] = useState(false);
   useEffect(() => {
     fetchTestimonials().then((data) => {
       if (data && Array.isArray(data) && data.length > 0) {
