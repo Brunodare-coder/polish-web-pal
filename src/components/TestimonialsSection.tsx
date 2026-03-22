@@ -42,7 +42,6 @@ export default function TestimonialsSection() {
   const { ref, offset } = useParallax(0.15);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(staticTestimonials);
 
-  // Try to fetch from PHP backend; fall back to static data
   useEffect(() => {
     fetchTestimonials().then((data) => {
       if (data && Array.isArray(data) && data.length > 0) {
@@ -50,38 +49,6 @@ export default function TestimonialsSection() {
       }
     });
   }, []);
-
-  const handleSubmitReview = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const data = {
-      name: formData.get("name") as string,
-      location: formData.get("location") as string,
-      text: formData.get("text") as string,
-      rating: Number(formData.get("rating")) || 5,
-    };
-
-    if (!API_BASE_URL) {
-      toast.success("Thank you for your review! It will be published after approval.");
-      form.reset();
-      setShowForm(false);
-      return;
-    }
-
-    setSending(true);
-    try {
-      await submitTestimonial(data);
-      toast.success("Thank you! Your review will be published after admin approval.");
-      form.reset();
-      setShowForm(false);
-    } catch {
-      toast.error("Could not submit review. Please try again later.");
-    } finally {
-      setSending(false);
-    }
-  };
 
   return (
     <section id="testimonials" ref={ref} className="py-24 md:py-32 bg-primary text-primary-foreground relative overflow-hidden">
@@ -99,7 +66,7 @@ export default function TestimonialsSection() {
         <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
           <p className="font-body text-sm tracking-[0.25em] uppercase text-gold-light font-semibold mb-3">Testimonials</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight text-balance">
-            What Our Clients Say
+            What Our <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Clients</span> Say
           </h2>
         </div>
 
@@ -154,7 +121,6 @@ export default function TestimonialsSection() {
               loading="lazy"
             />
           </div>
-        </div>
         </div>
       </div>
     </section>
