@@ -50,7 +50,7 @@ export default function HeroSection() {
             }`}
           >
             Complete Property{" "}
-            <span className="text-gradient">Refurbishment</span>{" "}
+            <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Refurbishment</span>{" "}
             & Remodeling
           </h1>
           <p
