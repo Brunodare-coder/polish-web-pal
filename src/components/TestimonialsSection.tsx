@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Quote, Star } from "lucide-react";
+import { Quote, Star, Send } from "lucide-react";
 import { useParallax } from "@/hooks/useParallax";
-import { fetchTestimonials } from "@/lib/api";
+import { fetchTestimonials, submitTestimonial, API_BASE_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 interface Testimonial {
   id?: number;
