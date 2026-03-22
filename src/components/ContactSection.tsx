@@ -1,28 +1,52 @@
 import { useState, type FormEvent } from "react";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
+import { submitContactForm, API_BASE_URL } from "@/lib/api";
 
 export default function ContactSection() {
   const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
-      setSending(false);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      source: formData.get("source") as string,
+      details: formData.get("details") as string,
+    };
+
+    if (!API_BASE_URL) {
+      // No backend configured — simulate success
+      setTimeout(() => {
+        setSending(false);
+        toast.success("Quote request sent! We'll be in touch shortly.");
+        form.reset();
+      }, 1200);
+      return;
+    }
+
+    try {
+      await submitContactForm(data);
       toast.success("Quote request sent! We'll be in touch shortly.");
-      (e.target as HTMLFormElement).reset();
-    }, 1200);
+      form.reset();
+    } catch {
+      toast.error("Could not send your request. Please try again or call us directly.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <section id="contact" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Decorative background */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
 
       <div className="container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16">
-          {/* Info */}
           <div className="scroll-reveal-left">
             <p className="font-body text-sm tracking-[0.25em] uppercase text-secondary font-semibold mb-3">Contact Us</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight mb-6 text-balance">
@@ -64,28 +88,27 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Form */}
           <div className="scroll-reveal-right">
             <form onSubmit={handleSubmit} className="p-8 bg-card rounded-lg shadow-xl shadow-primary/5 border border-border space-y-5 hover:shadow-2xl hover:shadow-primary/10 transition-shadow duration-500">
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">Get a Free Quote</h3>
 
               <div>
                 <label className="block font-body text-sm font-medium text-foreground mb-1.5">Name *</label>
-                <input required type="text" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300" />
+                <input required name="name" type="text" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300" />
               </div>
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block font-body text-sm font-medium text-foreground mb-1.5">Email *</label>
-                  <input required type="email" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300" />
+                  <input required name="email" type="email" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300" />
                 </div>
                 <div>
                   <label className="block font-body text-sm font-medium text-foreground mb-1.5">Phone *</label>
-                  <input required type="tel" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300" />
+                  <input required name="phone" type="tel" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300" />
                 </div>
               </div>
               <div>
                 <label className="block font-body text-sm font-medium text-foreground mb-1.5">How did you find us?</label>
-                <select className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300 text-foreground">
+                <select name="source" className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300 text-foreground">
                   <option value="">Select an option</option>
                   <option>A friend's suggestion</option>
                   <option>Internet search</option>
@@ -95,7 +118,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <label className="block font-body text-sm font-medium text-foreground mb-1.5">Project Details *</label>
-                <textarea required rows={4} className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300 resize-none" />
+                <textarea required name="details" rows={4} className="w-full px-4 py-3 font-body text-sm bg-muted/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary/40 transition-all duration-300 resize-none" />
               </div>
               <button
                 type="submit"
