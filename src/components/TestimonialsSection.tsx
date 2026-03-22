@@ -139,61 +139,25 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Leave a Review */}
-        <div className="mt-16 max-w-xl mx-auto text-center scroll-reveal">
-          {!showForm ? (
-            <button
-              onClick={() => setShowForm(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 active:scale-[0.98]"
-            >
-              <Star className="w-4 h-4" /> Leave a Review
-            </button>
-          ) : (
-            <form onSubmit={handleSubmitReview} className="p-8 bg-primary-foreground/10 border border-primary-foreground/20 rounded-lg text-left space-y-4">
-              <h3 className="font-display text-lg font-semibold text-primary-foreground mb-2">Share Your Experience</h3>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-body text-sm text-primary-foreground/80 mb-1">Name *</label>
-                  <input required name="name" type="text" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40" />
-                </div>
-                <div>
-                  <label className="block font-body text-sm text-primary-foreground/80 mb-1">Location *</label>
-                  <input required name="location" type="text" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40" />
-                </div>
-              </div>
-              <div>
-                <label className="block font-body text-sm text-primary-foreground/80 mb-1">Rating *</label>
-                <select name="rating" defaultValue="5" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40">
-                  <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-                  <option value="4">⭐⭐⭐⭐ Great</option>
-                  <option value="3">⭐⭐⭐ Good</option>
-                </select>
-              </div>
-              <div>
-                <label className="block font-body text-sm text-primary-foreground/80 mb-1">Your Review *</label>
-                <textarea required name="text" rows={3} className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40 resize-none" />
-              </div>
-              <div className="flex gap-3">
-                <button
-                  type="submit"
-                  disabled={sending}
-                  className="flex items-center gap-2 px-6 py-2.5 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 disabled:opacity-60"
-                >
-                  <Send className="w-4 h-4" /> {sending ? "Sending..." : "Submit Review"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="px-6 py-2.5 font-body text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-              <p className="font-body text-xs text-primary-foreground/40">
-                Your review will be published after admin approval.
-              </p>
-            </form>
-          )}
+        {/* Guestbook Integration */}
+        <div className="mt-16 max-w-3xl mx-auto scroll-reveal">
+          <div className="text-center mb-6">
+            <h3 className="font-display text-xl font-semibold text-primary-foreground mb-2">
+              Leave Your <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Feedback</span>
+            </h3>
+            <p className="font-body text-sm text-primary-foreground/60">
+              Share your experience with us — your feedback helps us improve.
+            </p>
+          </div>
+          <div className="rounded-lg overflow-hidden border border-primary-foreground/10 bg-primary-foreground/5">
+            <iframe
+              src="https://azzurrocontractors.com/guestbook/"
+              title="Azzurro Contractors Guestbook"
+              className="w-full min-h-[500px] border-0"
+              loading="lazy"
+            />
+          </div>
+        </div>
         </div>
       </div>
     </section>
