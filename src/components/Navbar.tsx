@@ -48,10 +48,10 @@ export default function Navbar() {
       >
         <div className="container flex items-center justify-between py-3">
           <Link to="/" className="flex items-center gap-3 group">
-            <img src={logo} alt="Azzurro Contractors" className="h-12 w-12 object-contain transition-transform group-hover:scale-105" />
+            <img src={logo} alt="Azzurro Contractors" className="h-16 w-16 object-contain transition-transform group-hover:scale-105" />
             <div className="leading-tight">
-              <span className="font-display text-xl font-bold text-primary tracking-wide">Azzurro</span>
-              <span className="block text-xs font-body text-muted-foreground tracking-[0.2em] uppercase">Contractors Ltd</span>
+              <span className="font-display text-2xl font-bold text-primary tracking-wide">Azzurro</span>
+              <span className="block text-sm font-body text-muted-foreground tracking-[0.2em] uppercase">Contractors Ltd</span>
             </div>
           </Link>
 
