@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Quote, Star } from "lucide-react";
+import { Quote, Star, Send } from "lucide-react";
 import { useParallax } from "@/hooks/useParallax";
-import { fetchTestimonials } from "@/lib/api";
+import { fetchTestimonials, submitTestimonial, API_BASE_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 interface Testimonial {
   id?: number;
@@ -41,7 +42,8 @@ const staticTestimonials: Testimonial[] = [
 export default function TestimonialsSection() {
   const { ref, offset } = useParallax(0.15);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(staticTestimonials);
-
+  const [showForm, setShowForm] = useState(false);
+  const [sending, setSending] = useState(false);
   useEffect(() => {
     fetchTestimonials().then((data) => {
       if (data && Array.isArray(data) && data.length > 0) {
@@ -103,22 +105,104 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Leave Feedback CTA */}
-        <div className="mt-16 text-center scroll-reveal">
+        {/* Leave Feedback Form */}
+        <div className="mt-16 max-w-xl mx-auto text-center scroll-reveal">
           <h3 className="font-display text-xl font-semibold text-primary-foreground mb-2">
             Leave Your <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Feedback</span>
           </h3>
           <p className="font-body text-sm text-primary-foreground/60 mb-6">
             Share your experience with us — your feedback helps us improve.
           </p>
-          <a
-            href="https://azzurrocontractors.com/guestbook/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 active:scale-[0.98] shadow-lg shadow-secondary/30 uppercase tracking-wide"
-          >
-            <Star className="w-4 h-4" /> Leave a Review
-          </a>
+
+          {!showForm ? (
+            <button
+              onClick={() => setShowForm(true)}
+              className="inline-flex items-center gap-2 px-8 py-4 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 active:scale-[0.98] shadow-lg shadow-secondary/30 uppercase tracking-wide"
+            >
+              <Star className="w-4 h-4" /> Leave a Review
+            </button>
+          ) : (
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const formData = new FormData(form);
+                const data = {
+                  name: (formData.get("name") as string).trim(),
+                  location: (formData.get("location") as string).trim(),
+                  text: (formData.get("text") as string).trim(),
+                  rating: Number(formData.get("rating")) || 5,
+                };
+
+                if (!data.name || !data.text) {
+                  toast.error("Please fill in all required fields.");
+                  return;
+                }
+
+                if (!API_BASE_URL) {
+                  toast.success("Thank you for your review! It will be published after approval.");
+                  form.reset();
+                  setShowForm(false);
+                  return;
+                }
+
+                setSending(true);
+                try {
+                  await submitTestimonial(data);
+                  toast.success("Thank you! Your review will be published after admin approval.");
+                  form.reset();
+                  setShowForm(false);
+                } catch {
+                  toast.error("Could not submit review. Please try again later.");
+                } finally {
+                  setSending(false);
+                }
+              }}
+              className="p-8 bg-primary-foreground/10 border border-primary-foreground/20 rounded-lg text-left space-y-4"
+            >
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-body text-sm text-primary-foreground/80 mb-1">Name *</label>
+                  <input required name="name" type="text" maxLength={100} className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground placeholder:text-primary-foreground/30 focus:outline-none focus:ring-2 focus:ring-secondary/40" placeholder="Your name" />
+                </div>
+                <div>
+                  <label className="block font-body text-sm text-primary-foreground/80 mb-1">Location</label>
+                  <input name="location" type="text" maxLength={100} className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground placeholder:text-primary-foreground/30 focus:outline-none focus:ring-2 focus:ring-secondary/40" placeholder="e.g. London" />
+                </div>
+              </div>
+              <div>
+                <label className="block font-body text-sm text-primary-foreground/80 mb-1">Rating</label>
+                <select name="rating" defaultValue="5" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40">
+                  <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                  <option value="4">⭐⭐⭐⭐ Great</option>
+                  <option value="3">⭐⭐⭐ Good</option>
+                </select>
+              </div>
+              <div>
+                <label className="block font-body text-sm text-primary-foreground/80 mb-1">Your Review *</label>
+                <textarea required name="text" rows={4} maxLength={1000} className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground placeholder:text-primary-foreground/30 focus:outline-none focus:ring-2 focus:ring-secondary/40 resize-none" placeholder="Tell us about your experience..." />
+              </div>
+              <div className="flex gap-3 justify-center">
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="flex items-center gap-2 px-6 py-2.5 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 disabled:opacity-60"
+                >
+                  <Send className="w-4 h-4" /> {sending ? "Sending..." : "Submit Review"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className="px-6 py-2.5 font-body text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+              <p className="font-body text-xs text-primary-foreground/40 text-center">
+                Your review will be published after admin approval.
+              </p>
+            </form>
+          )}
         </div>
       </div>
     </section>
