@@ -6,11 +6,20 @@ import beforeBathroom from "@/assets/before-bathroom.jpg";
 import afterBathroom from "@/assets/after-bathroom.jpg";
 import beforeLiving from "@/assets/before-living.jpg";
 import afterLiving from "@/assets/after-living.jpg";
+import beforeKitchen2 from "@/assets/before-kitchen2.jpg";
+import afterKitchen2 from "@/assets/after-kitchen2.jpg";
+import beforeBedroom from "@/assets/before-bedroom.jpg";
+import afterBedroom from "@/assets/after-bedroom.jpg";
+import beforeExterior from "@/assets/before-exterior.jpg";
+import afterExterior from "@/assets/after-exterior.jpg";
 
 const projects = [
   { title: "Kitchen Renovation", location: "Chelsea, London", before: beforeKitchen, after: afterKitchen },
   { title: "Bathroom Remodel", location: "Croydon, Surrey", before: beforeBathroom, after: afterBathroom },
   { title: "Living Room Transformation", location: "Kensington, London", before: beforeLiving, after: afterLiving },
+  { title: "Modern Kitchen Upgrade", location: "Brixton, London", before: beforeKitchen2, after: afterKitchen2 },
+  { title: "Master Bedroom Makeover", location: "Greenwich, London", before: beforeBedroom, after: afterBedroom },
+  { title: "Exterior Renovation", location: "Richmond, London", before: beforeExterior, after: afterExterior },
 ];
 
 function BeforeAfterSlider({ before, after, title }: { before: string; after: string; title: string }) {
@@ -52,14 +61,11 @@ function BeforeAfterSlider({ before, after, title }: { before: string; after: st
       onMouseDown={(e) => { dragging.current = true; updatePosition(e.clientX); }}
       onTouchStart={(e) => { dragging.current = true; updatePosition(e.touches[0].clientX); }}
     >
-      {/* After (full) */}
       <img src={after} alt={`${title} after`} className="absolute inset-0 w-full h-full object-cover" />
-      {/* Before (clipped) */}
       <div className="absolute inset-0 overflow-hidden" style={{ width: `${position}%` }}>
         <img src={before} alt={`${title} before`} className="absolute inset-0 w-full h-full object-cover" style={{ width: `${containerRef.current?.offsetWidth || 100}px`, maxWidth: "none" }} />
       </div>
 
-      {/* Slider handle */}
       <div className="absolute top-0 bottom-0 z-10" style={{ left: `${position}%`, transform: "translateX(-50%)" }}>
         <div className="w-0.5 h-full bg-card/90 shadow-md" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card shadow-lg flex items-center justify-center">
@@ -70,7 +76,6 @@ function BeforeAfterSlider({ before, after, title }: { before: string; after: st
         </div>
       </div>
 
-      {/* Labels */}
       <div className="absolute top-3 left-3 px-3 py-1 rounded-md bg-primary/80 backdrop-blur-sm font-body text-xs font-semibold text-primary-foreground uppercase tracking-wider">
         Before
       </div>
