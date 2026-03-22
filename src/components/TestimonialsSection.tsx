@@ -41,8 +41,6 @@ const staticTestimonials: Testimonial[] = [
 export default function TestimonialsSection() {
   const { ref, offset } = useParallax(0.15);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(staticTestimonials);
-  const [showForm, setShowForm] = useState(false);
-  const [sending, setSending] = useState(false);
 
   // Try to fetch from PHP backend; fall back to static data
   useEffect(() => {
