@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { Quote, Star, Send } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Quote, Star } from "lucide-react";
 import { useParallax } from "@/hooks/useParallax";
-import { fetchTestimonials, submitTestimonial, API_BASE_URL } from "@/lib/api";
-import { toast } from "sonner";
+import { fetchTestimonials } from "@/lib/api";
 
 interface Testimonial {
   id?: number;
@@ -42,10 +41,7 @@ const staticTestimonials: Testimonial[] = [
 export default function TestimonialsSection() {
   const { ref, offset } = useParallax(0.15);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(staticTestimonials);
-  const [showForm, setShowForm] = useState(false);
-  const [sending, setSending] = useState(false);
 
-  // Try to fetch from PHP backend; fall back to static data
   useEffect(() => {
     fetchTestimonials().then((data) => {
       if (data && Array.isArray(data) && data.length > 0) {
@@ -53,38 +49,6 @@ export default function TestimonialsSection() {
       }
     });
   }, []);
-
-  const handleSubmitReview = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const data = {
-      name: formData.get("name") as string,
-      location: formData.get("location") as string,
-      text: formData.get("text") as string,
-      rating: Number(formData.get("rating")) || 5,
-    };
-
-    if (!API_BASE_URL) {
-      toast.success("Thank you for your review! It will be published after approval.");
-      form.reset();
-      setShowForm(false);
-      return;
-    }
-
-    setSending(true);
-    try {
-      await submitTestimonial(data);
-      toast.success("Thank you! Your review will be published after admin approval.");
-      form.reset();
-      setShowForm(false);
-    } catch {
-      toast.error("Could not submit review. Please try again later.");
-    } finally {
-      setSending(false);
-    }
-  };
 
   return (
     <section id="testimonials" ref={ref} className="py-24 md:py-32 bg-primary text-primary-foreground relative overflow-hidden">
@@ -102,7 +66,7 @@ export default function TestimonialsSection() {
         <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
           <p className="font-body text-sm tracking-[0.25em] uppercase text-gold-light font-semibold mb-3">Testimonials</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight text-balance">
-            What Our Clients Say
+            What Our <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Clients</span> Say
           </h2>
         </div>
 
@@ -139,61 +103,24 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Leave a Review */}
-        <div className="mt-16 max-w-xl mx-auto text-center scroll-reveal">
-          {!showForm ? (
-            <button
-              onClick={() => setShowForm(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 active:scale-[0.98]"
-            >
-              <Star className="w-4 h-4" /> Leave a Review
-            </button>
-          ) : (
-            <form onSubmit={handleSubmitReview} className="p-8 bg-primary-foreground/10 border border-primary-foreground/20 rounded-lg text-left space-y-4">
-              <h3 className="font-display text-lg font-semibold text-primary-foreground mb-2">Share Your Experience</h3>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-body text-sm text-primary-foreground/80 mb-1">Name *</label>
-                  <input required name="name" type="text" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40" />
-                </div>
-                <div>
-                  <label className="block font-body text-sm text-primary-foreground/80 mb-1">Location *</label>
-                  <input required name="location" type="text" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40" />
-                </div>
-              </div>
-              <div>
-                <label className="block font-body text-sm text-primary-foreground/80 mb-1">Rating *</label>
-                <select name="rating" defaultValue="5" className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40">
-                  <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-                  <option value="4">⭐⭐⭐⭐ Great</option>
-                  <option value="3">⭐⭐⭐ Good</option>
-                </select>
-              </div>
-              <div>
-                <label className="block font-body text-sm text-primary-foreground/80 mb-1">Your Review *</label>
-                <textarea required name="text" rows={3} className="w-full px-4 py-2.5 font-body text-sm bg-primary-foreground/10 border border-primary-foreground/20 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-secondary/40 resize-none" />
-              </div>
-              <div className="flex gap-3">
-                <button
-                  type="submit"
-                  disabled={sending}
-                  className="flex items-center gap-2 px-6 py-2.5 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 disabled:opacity-60"
-                >
-                  <Send className="w-4 h-4" /> {sending ? "Sending..." : "Submit Review"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="px-6 py-2.5 font-body text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-              <p className="font-body text-xs text-primary-foreground/40">
-                Your review will be published after admin approval.
-              </p>
-            </form>
-          )}
+        {/* Guestbook Integration */}
+        <div className="mt-16 max-w-3xl mx-auto scroll-reveal">
+          <div className="text-center mb-6">
+            <h3 className="font-display text-xl font-semibold text-primary-foreground mb-2">
+              Leave Your <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Feedback</span>
+            </h3>
+            <p className="font-body text-sm text-primary-foreground/60">
+              Share your experience with us — your feedback helps us improve.
+            </p>
+          </div>
+          <div className="rounded-lg overflow-hidden border border-primary-foreground/10 bg-primary-foreground/5">
+            <iframe
+              src="https://azzurrocontractors.com/guestbook/"
+              title="Azzurro Contractors Guestbook"
+              className="w-full min-h-[500px] border-0"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </section>
