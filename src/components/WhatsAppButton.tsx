@@ -17,6 +17,7 @@ import { MessageCircle } from "lucide-react";
 export default function WhatsAppButton() {
   // ⚠️ ALTERE AQUI: Coloque o número do WhatsApp da empresa (formato internacional, sem +)
   const phone = "7892826205";
+  // ⚠️ ALTERE AQUI: Mensagem padrão que aparece quando o cliente abre o chat
   const message = encodeURIComponent("Hello! I'd like to get a free quote for my project.");
   const url = `https://wa.me/${phone}?text=${message}`;
 
