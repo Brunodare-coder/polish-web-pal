@@ -93,7 +93,7 @@ export default function GallerySection() {
         <div className="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
           <p className="font-body text-sm tracking-[0.25em] uppercase text-secondary font-semibold mb-3">Our Work</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight text-balance">
-            Before & After Gallery
+            Before & After <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Gallery</span>
           </h2>
           <p className="mt-4 font-body text-muted-foreground leading-relaxed">
             Drag the slider to see the transformation. Every project showcases our commitment to quality craftsmanship.
