@@ -1,6 +1,21 @@
+/**
+ * ============================================
+ * 🟢 WHATSAPP BUTTON - CONFIGURAÇÃO
+ * ============================================
+ * 
+ * Para alterar o número do WhatsApp:
+ * 1. Troque o valor da variável "phone" abaixo
+ * 2. Use formato internacional SEM o "+" (ex: 5511999999999)
+ *    - Brasil: 55 + DDD + número (ex: 5511999999999)
+ *    - UK: 44 + número (ex: 442071013821)
+ * 3. A mensagem padrão pode ser alterada na variável "message"
+ * 
+ * ============================================
+ */
 import { MessageCircle } from "lucide-react";
 
 export default function WhatsAppButton() {
+  // ⚠️ ALTERE AQUI: Coloque o número do WhatsApp da empresa (formato internacional, sem +)
   const phone = "7892826205";
   const message = encodeURIComponent("Hello! I'd like to get a free quote for my project.");
   const url = `https://wa.me/${phone}?text=${message}`;

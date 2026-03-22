@@ -1,24 +1,42 @@
 /**
- * API Configuration
+ * ============================================
+ * 🔧 API CONFIGURATION - BACKEND PHP
+ * ============================================
  * 
- * Configure the BASE_URL to point to your PHP backend.
- * Example: "https://azzurrocontractors.com/api"
+ * COMO CONFIGURAR:
  * 
- * The PHP backend should expose these endpoints:
+ * 1. Crie uma pasta "api" no seu servidor (ex: azzurrocontractors.com/api/)
  * 
- * GET  /testimonials.php  — Returns JSON array of approved testimonials
- *   Response: [{ id, name, location, text, rating, approved, created_at }]
+ * 2. Crie os seguintes arquivos PHP dentro dessa pasta:
  * 
- * POST /testimonials.php  — Submit a new testimonial (pending approval)
- *   Body: { name, location, text, rating }
- *   Response: { success: true, message: "..." }
+ *    📄 testimonials.php
+ *       - GET:  Retorna JSON com depoimentos aprovados
+ *         Resposta: [{ "id": 1, "name": "...", "location": "...", "text": "...", "rating": 5 }]
+ *       - POST: Recebe novo depoimento para aprovação do admin
+ *         Body:  { "name": "...", "location": "...", "text": "...", "rating": 5 }
+ *         Resposta: { "success": true, "message": "Review submitted" }
  * 
- * POST /contact.php       — Submit contact/quote form
- *   Body: { name, email, phone, source, details }
- *   Response: { success: true, message: "..." }
+ *    📄 contact.php
+ *       - POST: Recebe dados do formulário de contato/orçamento
+ *         Body:  { "name": "...", "email": "...", "phone": "...", "source": "...", "details": "..." }
+ *         Resposta: { "success": true, "message": "Message sent" }
+ * 
+ * 3. Configure a URL base de uma dessas formas:
+ * 
+ *    OPÇÃO A - Direto no código (mais simples):
+ *      Altere a linha abaixo trocando "" pela URL do seu backend:
+ *      export const API_BASE_URL = "https://azzurrocontractors.com/api";
+ * 
+ *    OPÇÃO B - Variável de ambiente:
+ *      Crie um arquivo .env na raiz do projeto com:
+ *      VITE_API_URL=https://azzurrocontractors.com/api
+ * 
+ * 4. Sem a URL configurada, o site funciona normalmente com dados estáticos.
+ * 
+ * ============================================
  */
 
-// ⚠️ CHANGE THIS to your actual PHP backend URL
+// ⚠️ ALTERE AQUI: Coloque a URL do seu backend PHP (ou use VITE_API_URL no .env)
 export const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export async function fetchTestimonials() {
