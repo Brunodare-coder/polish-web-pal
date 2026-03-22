@@ -103,24 +103,22 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Guestbook Integration */}
-        <div className="mt-16 max-w-3xl mx-auto scroll-reveal">
-          <div className="text-center mb-6">
-            <h3 className="font-display text-xl font-semibold text-primary-foreground mb-2">
-              Leave Your <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Feedback</span>
-            </h3>
-            <p className="font-body text-sm text-primary-foreground/60">
-              Share your experience with us — your feedback helps us improve.
-            </p>
-          </div>
-          <div className="rounded-lg overflow-hidden border border-primary-foreground/10 bg-primary-foreground/5">
-            <iframe
-              src="https://azzurrocontractors.com/guestbook/"
-              title="Azzurro Contractors Guestbook"
-              className="w-full min-h-[500px] border-0"
-              loading="lazy"
-            />
-          </div>
+        {/* Leave Feedback CTA */}
+        <div className="mt-16 text-center scroll-reveal">
+          <h3 className="font-display text-xl font-semibold text-primary-foreground mb-2">
+            Leave Your <span className="bg-gradient-to-r from-secondary via-gold-light to-secondary bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">Feedback</span>
+          </h3>
+          <p className="font-body text-sm text-primary-foreground/60 mb-6">
+            Share your experience with us — your feedback helps us improve.
+          </p>
+          <a
+            href="https://azzurrocontractors.com/guestbook/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 font-body font-semibold text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-gold-light transition-all duration-300 active:scale-[0.98] shadow-lg shadow-secondary/30 uppercase tracking-wide"
+          >
+            <Star className="w-4 h-4" /> Leave a Review
+          </a>
         </div>
       </div>
     </section>
